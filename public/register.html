@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - College Search</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .user-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c5282;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .user-btn {
+            background: linear-gradient(45deg, #f0810f, #3a6ec5);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-container">
+        <h1>Create Account</h1>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="user-btn">Register</button>
+            <div id="error-message" class="error-message"></div>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/login.html';
+                } else {
+                    document.getElementById('error-message').textContent = data.error || 'Registration failed';
+                }
+            })
+            .catch(error => {
+                document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

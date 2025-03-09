@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - College Search</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+
+        .dashboard-nav {
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-tabs li {
+            margin-right: 5px;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 10px 20px;
+            color: #4a5568;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .nav-tabs a.active {
+            color: #3182ce;
+            border-color: #e2e8f0;
+            background: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+        .admin-btn {
+            background: linear-gradient(45deg, #3182ce, #2c5282);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .admin-btn.secondary {
+            background: #718096;
+        }
+
+        .admin-btn.danger {
+            background: #e53e3e;
+        }
+
+        .success-message {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .course-list {
+            margin-top: 20px;
+        }
+
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Applications table styling */
+        .applications-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .filter-controls select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .applications-table th, 
+        .applications-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        .applications-table th {
+            background: #f8fafc;
+            color: #2c5282;
+            position: sticky;
+            top: 0;
+        }
+        
+        .applications-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .applications-table tr:hover {
+            background-color: #edf2f7;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .badge-new {
+            background: #ebf8ff;
+            color: #3182ce;
+        }
+        
+        .badge-contacted {
+            background: #fefcbf;
+            color: #d69e2e;
+        }
+        
+        .badge-processed {
+            background: #c6f6d5;
+            color: #38a169;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .application-detail-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .application-detail-label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .application-detail-value {
+            color: #1a202c;
+        }
+        
+        .timestamp {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <button id="logoutBtn" class="admin-btn secondary">Logout</button>
+        </div>
+        <div class="dashboard-nav">
+            <ul class="nav-tabs">
+                <li><a href="#college-info" class="active" data-tab="college-info">College Information</a></li>
+                <li><a href="#courses" data-tab="courses">Courses</a></li>
+                <li><a href="#events" data-tab="events">Events</a></li>
+                <li><a href="#facilities" data-tab="facilities">Facilities</a></li>
+                <li><a href="#applications" data-tab="applications">Applications</a></li>
+                <li><a href="#reviews" data-tab="reviews">Reviews</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="college-info" class="tab-pane active">
+                <h2>College Information</h2>
+                <div id="collegeInfo"></div>
+
+                <h3>Update College Details</h3>
+                <form id="updateCollegeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeName">College Name</label>
+                            <input type="text" id="collegeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="collegeLocation">Location</label>
+                            <input type="text" id="collegeLocation" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeRanking">NIRF Ranking</label>
+                            <input type="number" id="collegeRanking" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="collegeWebsite">Website</label>
+                            <input type="url" id="collegeWebsite" placeholder="https://www.example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeEstablished">Established Year</label>
+                            <input type="number" id="collegeEstablished" min="1800" max="2025">
+                        </div>
+                        <div class="form-group">
+                            <label for="collegeStudents">Total Students</label>
+                            <input type="number" id="collegeStudents" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegePlacement">Placement Rate (%)</label>
+                            <input type="number" id="collegePlacement" min="0" max="100" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="collegePackage">Avg. Package (LPA)</label>
+                            <input type="number" id="collegePackage" min="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="collegeDescription">Description</label>
+                        <textarea id="collegeDescription"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="collegeAmenities">Amenities</label>
+                        <textarea id="collegeAmenities"
+                            placeholder="Library, Sports Complex, Wi-Fi Campus, etc."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="collegeAccreditation">Accreditation</label>
+                        <input type="text" id="collegeAccreditation" placeholder="NAAC A++, NBA, etc.">
+                    </div>
+
+                    <div class="form-section"
+                        style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                        <h3>Maps & Photos</h3>
+                        <div class="alert-box" style="background-color: #e9f5fe; border-left: 4px solid #3182ce; padding: 10px; margin-bottom: 15px;">
+                            <p style="margin: 0; color: #2c5282;"><strong>Important:</strong></p>
+                            <ul style="margin-top: 5px; margin-bottom: 0;">
+                                <li>For Google Maps, use a simple URL like: <code>https://www.google.com/maps?q=Your+College+Name</code></li>
+                                <li>For photos, use direct image URLs ending with .jpg, .png, etc.</li>
+                                <li>Make sure links work by testing them in a new browser tab first</li>
+                            </ul>
+                        </div>
+                        <p style="margin-bottom: 15px; color: #718096;">These fields are optional. Provide links to
+                            enhance your college's profile.</p>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mapLink">Google Maps Embed Code</label>
+                                <textarea id="mapLink" rows="6" placeholder="<iframe src='https://www.google.com/maps/embed...'></iframe>"></textarea>
+                                <small style="color: #718096;">
+                                    How to get embed code:
+                                    <ol style="margin-top: 5px; margin-left: 15px; font-size: 0.85rem;">
+                                        <li>Go to Google Maps and search for your college</li>
+                                        <li>Click "Share" button, then select "Embed a map"</li>
+                                        <li>Copy the entire iframe code and paste it here</li>
+                                    </ol>
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="satelliteLink">Satellite View Embed Code</label>
+                                <input type="text" id="satelliteLink"
+                                    placeholder="<iframe src='https://www.google.com/maps/embed?...'>...</iframe>">
+                                <small style="color: #718096;">Tip: For satellite view, paste the complete iframe HTML code similar to the map embed above</small>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 15px;">College Photos (2-4 recommended)</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="photoLink1">Photo 1 URL</label>
+                                <input type="url" id="photoLink1" placeholder="https://example.com/college-photo1.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label for="photoLink2">Photo 2 URL</label>
+                                <input type="url" id="photoLink2" placeholder="https://example.com/college-photo2.jpg">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="photoLink3">Photo 3 URL (Optional)</label>
+                                <input type="url" id="photoLink3" placeholder="https://example.com/college-photo3.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label for="photoLink4">Photo 4 URL (Optional)</label>
+                                <input type="url" id="photoLink4" placeholder="https://example.com/college-photo4.jpg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="admin-btn">Update College Information</button>
+                    <div id="successMessage" class="success-message">College information updated successfully!</div>
+                </form>
+            </div>
+
+            <div id="courses" class="tab-pane">
+                <h2>Manage Courses</h2>
+                <div id="courseList" class="course-list">
+                    <!-- Courses will be listed here -->
+                </div>
+
+                <h3>Add New Course</h3>
+                <form id="addCourseForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseName">Course Name</label>
+                            <input type="text" id="courseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDegree">Degree Type</label>
+                            <select id="courseDegree" required>
+                                <option value="">Select Degree</option>
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="M.Tech">M.Tech</option>
+                                <option value="BBA">BBA</option>
+                                <option value="MBA">MBA</option>
+                                <option value="B.Sc">B.Sc</option>
+                                <option value="M.Sc">M.Sc</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseDuration">Duration</label>
+                            <input type="text" id="courseDuration" placeholder="4 years" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseSeats">Total Seats</label>
+                            <input type="number" id="courseSeats" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseFee">Annual Fee (₹)</label>
+                            <input type="number" id="courseFee" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseDescription">Description</label>
+                        <textarea id="courseDescription"></textarea>
+                    </div>
+
+                    <button type="submit" class="admin-btn">Add Course</button>
+                    <div id="courseSuccessMessage" class="success-message">Course added successfully!</div>
+                </form>
+            </div>
+
+            <div id="events" class="tab-pane">
+                <h2>Manage Events</h2>
+                <div id="adminEventsList" class="admin-events-list">
+                    <p>Loading events...</p>
+                </div>
+
+                <h3>Add New Event</h3>
+                <form id="addEventForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventTitle">Event Title</label>
+                            <input type="text" id="eventTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventType">Event Type</label>
+                            <select id="eventType">
+                                <option value="Open Day">Open Day</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Webinar">Webinar</option>
+                                <option value="Admission Drive">Admission Drive</option>
+                                <option value="Career Fair">Career Fair</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDate">Event Date</label>
+                            <input type="date" id="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventTime">Event Time</label>
+                            <input type="time" id="eventTime" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventLocation">Location</label>
+                            <input type="text" id="eventLocation">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventRegistration">Registration URL (Optional)</label>
+                            <input type="url" id="eventRegistration" placeholder="https://example.com/register">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDescription">Description</label>
+                        <textarea id="eventDescription"></textarea>
+                    </div>
+
+                    <button type="submit" class="admin-btn">Add Event</button>
+                    <div id="eventSuccessMessage" class="success-message">Event added successfully!</div>
+                </form>
+            </div>
+
+            <div id="facilities" class="tab-pane">
+                <h2>Manage Campus Facilities</h2>
+                
+                <!-- Debug button for testing - remove after confirming functionality -->
+                <button id="addTestFacility" class="admin-btn" style="background: #805ad5; margin-bottom: 15px;">
+                    Add Test Facility (Debug)
+                </button>
+                
+                <div id="facilitiesList" class="admin-list">
+                    <!-- Facilities will be listed here -->
+                </div>
+
+                <h3>Add New Facility</h3>
+                <form id="addFacilityForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="facilityName">Facility Name</label>
+                            <input type="text" id="facilityName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="facilityType">Facility Type</label>
+                            <select id="facilityType" required>
+                                <option value="">Select Type</option>
+                                <option value="library">Library</option>
+                                <option value="sports">Sports</option>
+                                <option value="food">Food & Dining</option>
+                                <option value="residence">Residence</option>
+                                <option value="lab">Laboratory</option>
+                                <option value="medical">Medical</option>
+                                <option value="transport">Transportation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="facilityLocation">Location</label>
+                            <input type="text" id="facilityLocation" placeholder="e.g., North Campus, Building C">
+                        </div>
+                        <div class="form-group">
+                            <label for="facilityDistance">Distance</label>
+                            <input type="text" id="facilityDistance" placeholder="e.g., 5 min walk">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="facilityDescription">Description</label>
+                        <textarea id="facilityDescription" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="admin-btn primary">Add Facility</button>
+                    <div id="facilitySuccessMessage" class="success-message">Facility added successfully!</div>
+                </form>
+            </div>
+
+            <div id="applications" class="tab-pane">
+                <h2>Manage Applications</h2>
+                
+                <div class="applications-stats">
+                    <div class="stat-card">
+                        <div id="totalApplications" class="stat-value">0</div>
+                        <div class="stat-label">Total Applications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="newApplications" class="stat-value">0</div>
+                        <div class="stat-label">New Applications</div>
+                    </div>
+                </div>
+                
+                <div class="filter-controls">
+                    <select id="applicationStatusFilter">
+                        <option value="all">All Applications</option>
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="processed">Processed</option>
+                    </select>
+                    <button class="admin-btn" onclick="refreshApplications()">Refresh</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="applications-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Course</th>
+                                <th>Education</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTableBody">
+                            <!-- Applications will be listed here -->
+                            <tr>
+                                <td colspan="7" class="text-center">Loading applications...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Application Detail Modal -->
+                <div id="applicationDetailModal" class="modal">
+                    <div class="modal-content" style="width: 90%; max-width: 700px;">
+                        <span class="close-btn" onclick="document.getElementById('applicationDetailModal').style.display='none'">&times;</span>
+                        <h2>Application Details</h2>
+                        <div id="applicationDetailContent">
+                            <!-- Application details will be displayed here -->
+                        </div>
+                        <div class="action-buttons" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                            <button id="markAsContacted" class="admin-btn">Mark as Contacted</button>
+                            <button id="markAsProcessed" class="admin-btn">Mark as Processed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reviews" class="tab-pane">
+                <h2>College Reviews</h2>
+                <p>Manage student reviews for your college</p>
+                <div class="admin-card">
+                    <div id="reviewsList" class="admin-list">
+                        <p>Loading reviews...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentCollegeId;
+        let currentTab = 'college-info';
+
+        // Check if admin is logged in
+        fetch('/admin/check-auth')
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = '/admin/login.html';
+                    throw new Error('Not authenticated');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.authenticated) {
+                    console.log('Admin authenticated:', data.username);
+                    loadCollegeForAdmin(data.collegeId);
+                }
+            })
+            .catch(error => {
+                console.error('Authentication error:', error);
+            });
+
+        // Load college information for admin
+        function loadCollegeForAdmin(collegeId) {
+            // If super admin (null collegeId), show all colleges
+            if (collegeId === null) {
+                fetch('/colleges')
+                    .then(response => response.json())
+                    .then(colleges => {
+                        if (colleges.length === 0) {
+                            const collegeInfoDiv = document.getElementById('collegeInfo');
+                            collegeInfoDiv.innerHTML = '<p>No colleges available.</p>';
+                            return;
+                        }
+                        const firstCollege = colleges[0];
+                        fetchCollegeInfo(firstCollege.id);
+                    });
+            } else {
+                // Regular admin can only see their assigned college
+                fetchCollegeInfo(collegeId);
+                loadCourses(collegeId);
+                loadEvents(collegeId);
+                loadFacilities(collegeId);
+                loadApplications(collegeId); 
+                loadReviews(collegeId); 
+            }
+        }
+
+        // Fetch college information
+        function fetchCollegeInfo(collegeId) {
+            // Set the global variable
+            currentCollegeId = collegeId;
+
+            fetch(`/college/${collegeId}`)
+                .then(response => response.json())
+                .then(college => {
+                    const collegeInfoDiv = document.getElementById('collegeInfo');
+                    collegeInfoDiv.innerHTML = `
+                        <h3>${college.name}</h3>
+                        <p><strong>Location:</strong> ${college.location}</p>
+                        <p><strong>Ranking:</strong> ${college.ranking}</p>
+                    `;
+
+                    // Fill form with current values
+                    document.getElementById('collegeName').value = college.name;
+                    document.getElementById('collegeLocation').value = college.location;
+                    document.getElementById('collegeRanking').value = college.ranking;
+                    document.getElementById('collegeWebsite').value = college.website || '';
+                    document.getElementById('collegeEstablished').value = college.established_year || '';
+                    document.getElementById('collegeStudents').value = college.total_students || '';
+                    document.getElementById('collegePlacement').value = college.placement_rate || '';
+                    document.getElementById('collegePackage').value = college.avg_package || '';
+                    document.getElementById('collegeDescription').value = college.description || '';
+                    document.getElementById('collegeAmenities').value = college.amenities || '';
+                    document.getElementById('collegeAccreditation').value = college.accreditation || '';
+                    
+                    document.getElementById('mapLink').value = college.map_link || '';
+                    document.getElementById('satelliteLink').value = college.satellite_link || '';
+                    document.getElementById('photoLink1').value = college.photo_link1 || '';
+                    document.getElementById('photoLink2').value = college.photo_link2 || '';
+                    document.getElementById('photoLink3').value = college.photo_link3 || '';
+                    document.getElementById('photoLink4').value = college.photo_link4 || '';
+
+                    // Add console log to verify data is being received
+                    console.log("College data loaded:", {
+                        name: college.name,
+                        mapLink: college.map_link,
+                        satelliteLink: college.satellite_link,
+                        photoLink1: college.photo_link1,
+                        photoLink2: college.photo_link2
+                    });
+
+                    // Load courses for this college
+                    loadCourses(collegeId);
+                    loadEvents(collegeId);
+                    loadFacilities(collegeId);
+                    loadApplications(collegeId);
+                    loadReviews(collegeId);
+                })
+                .catch(error => {
+                    console.error('Error fetching college:', error);
+                });
+        }
+
+        // Load courses for a college
+        function loadCourses(collegeId) {
+            fetch(`/college/${collegeId}/courses`)
+                .then(response => response.json())
+                .then(courses => {
+                    // Store courses globally
+                    window.courseList = courses;
+                    
+                    // Existing code to display courses
+                    const courseList = document.getElementById('courseList');
+                    courseList.innerHTML = '';
+
+                    if (courses.length === 0) {
+                        courseList.innerHTML = '<p>No courses available. Add a new course below.</p>';
+                        return;
+                    }
+
+                    courses.forEach(course => {
+                        const courseItem = document.createElement('div');
+                        courseItem.className = 'course-item';
+                        courseItem.innerHTML = `
+                            <div>
+                                <strong>${course.name}</strong> - ${course.degree_type} (${course.duration})
+                                <br>
+                                <small>Annual Fee: ₹${course.annual_fee ? course.annual_fee.toLocaleString('en-IN') : 'N/A'} | Seats: ${course.seats || 'N/A'}</small>
+                            </div>
+                            <div>
+                                <button class="admin-btn" onclick="editCourse(${course.id})">Edit</button>
+                                <button class="admin-btn danger" onclick="deleteCourse(${course.id})">Delete</button>
+                            </div>
+                        `;
+                        courseList.appendChild(courseItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading courses:', error);
+                });
+        }
+
+        // Load events for a college
+        function loadEvents(collegeId) {
+            fetch(`/college/${collegeId}/events`)
+                .then(response => response.json())
+                .then(events => {
+                    const eventsList = document.getElementById('adminEventsList');
+                    eventsList.innerHTML = ''; // Clear previous events
+
+                    if (events.length === 0) {
+                        eventsList.innerHTML = '<p>No upcoming events. Add a new event below.</p>';
+                        return;
+                    }
+
+                    events.forEach(event => {
+                        const eventDate = new Date(event.event_date);
+                        const formattedDate = eventDate.toLocaleDateString();
+                        const formattedTime = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        const eventItem = document.createElement('div');
+                        eventItem.className = 'course-item'; // Reusing the same styling as courses
+                        eventItem.innerHTML = `
+                            <div>
+                                <strong>${event.title}</strong>
+                                <br>
+                                <small>${formattedDate} at ${formattedTime} | ${event.event_type || 'Event'}</small>
+                            </div>
+                            <div>
+                                <button class="admin-btn danger" onclick="deleteEvent(${event.id})">Delete</button>
+                            </div>
+                        `;
+                        eventsList.appendChild(eventItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading events:', error);
+                });
+        }
+
+        // Function to delete event
+        function deleteEvent(eventId) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                fetch(`/events/${eventId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Refresh events list
+                        loadEvents(currentCollegeId);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting event:', error);
+                });
+            }
+        }
+
+        // Add event form submission handler
+        document.getElementById('addEventForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentCollegeId) {
+                console.error('No college ID found');
+                return;
+            }
+
+            // Combine date and time
+            const eventDate = document.getElementById('eventDate').value;
+            const eventTime = document.getElementById('eventTime').value;
+            const eventDateTime = `${eventDate}T${eventTime}:00`;
+
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                event_type: document.getElementById('eventType').value,
+                event_date: eventDateTime,
+                location: document.getElementById('eventLocation').value,
+                description: document.getElementById('eventDescription').value,
+                registration_url: document.getElementById('eventRegistration').value
+            };
+
+            fetch(`/college/${currentCollegeId}/events`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(eventData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    const successMsg = document.getElementById('eventSuccessMessage');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 3000);
+
+                    // Clear the form
+                    document.getElementById('addEventForm').reset();
+
+                    // Refresh events list
+                    loadEvents(currentCollegeId);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding event:', error);
+            });
+        });
+
+        // Handle tab navigation
+        document.querySelectorAll('.nav-tabs a').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                // Get the target tab id from href or data-tab attribute
+                const tabId = this.getAttribute('data-tab') || this.getAttribute('href').substring(1);
+                console.log('Switching to tab:', tabId);
+
+                // Update active tab
+                document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show selected tab content
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                const targetPane = document.getElementById(tabId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                    currentTab = tabId;
+                } else {
+                    console.error('Tab pane not found:', tabId);
+                }
+            });
+        });
+
+        // Handle college update form submission
+        document.getElementById('updateCollegeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentCollegeId) {
+                console.error('No college ID found');
+                return;
+            }
+
+            const collegeData = {
+                name: document.getElementById('collegeName').value,
+                location: document.getElementById('collegeLocation').value,
+                ranking: document.getElementById('collegeRanking').value,
+                website: document.getElementById('collegeWebsite').value,
+                established_year: document.getElementById('collegeEstablished').value,
+                total_students: document.getElementById('collegeStudents').value,
+                placement_rate: document.getElementById('collegePlacement').value,
+                avg_package: document.getElementById('collegePackage').value,
+                description: document.getElementById('collegeDescription').value,
+                amenities: document.getElementById('collegeAmenities').value,
+                accreditation: document.getElementById('collegeAccreditation').value,
+                map_link: document.getElementById('mapLink').value,
+                satellite_link: document.getElementById('satelliteLink').value,
+                photo_link1: document.getElementById('photoLink1').value,
+                photo_link2: document.getElementById('photoLink2').value,
+                photo_link3: document.getElementById('photoLink3').value,
+                photo_link4: document.getElementById('photoLink4').value
+            };
+
+            fetch(`/college/${currentCollegeId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(collegeData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 3000);
+
+                    // Refresh college info
+                    fetchCollegeInfo(currentCollegeId);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating college:', error);
+            });
+        });
+
+        // Handle course form submission
+        document.getElementById('addCourseForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentCollegeId) {
+                console.error('No college ID found');
+                return;
+            }
+
+            // First create the course
+            const courseData = {
+                name: document.getElementById('courseName').value,
+                degree_type: document.getElementById('courseDegree').value,
+                duration: document.getElementById('courseDuration').value,
+                description: document.getElementById('courseDescription').value
+            };
+
+            fetch('/courses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(courseData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Now associate the course with the college
+                    const associationData = {
+                        course_id: data.id,
+                        annual_fee: document.getElementById('courseFee').value,
+                        seats: document.getElementById('courseSeats').value
+                    };
+
+                    return fetch(`/college/${currentCollegeId}/courses`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(associationData)
+                    });
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    const successMsg = document.getElementById('courseSuccessMessage');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 3000);
+
+                    // Clear the form
+                    document.getElementById('addCourseForm').reset();
+
+                    // Refresh course list
+                    loadCourses(currentCollegeId);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding course:', error);
+            });
+        });
+
+        // Function to edit course (placeholder for now)
+        function editCourse(courseId) {
+            alert('Edit course functionality will be added soon!');
+        }
+
+        // Function to delete course (placeholder for now)
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                alert('Delete course functionality will be added soon!');
+            }
+        }
+
+        // Handle logout
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            fetch('/admin/logout')
+                .then(() => {
+                    window.location.href = '/admin/login.html';
+                })
+                .catch(error => {
+                    console.error('Logout error:', error);
+                });
+        });
+
+        // Load facilities for a college
+        function loadFacilities(collegeId) {
+            console.log('Loading facilities for college ID:', collegeId);
+            
+            fetch(`/college/${collegeId}/facilities`)
+                .then(response => {
+                    console.log('Facilities response status:', response.status);
+                    return response.json();
+                })
+                .then(facilities => {
+                    console.log('Received facilities data:', facilities);
+                    const facilitiesList = document.getElementById('facilitiesList');
+                    facilitiesList.innerHTML = '';
+
+                    if (facilities.length === 0) {
+                        facilitiesList.innerHTML = '<p>No facilities available. Add a new facility below.</p>';
+                        return;
+                    }
+
+                    facilities.forEach(facility => {
+                        const facilityItem = document.createElement('div');
+                        facilityItem.className = 'list-item';
+                        facilityItem.innerHTML = `
+                            <div>
+                                <strong>${facility.name}</strong>
+                                <br>
+                                <small>${facility.type.charAt(0).toUpperCase() + facility.type.slice(1)} | ${facility.location || 'No location specified'}</small>
+                            </div>
+                            <div>
+                                <button class="admin-btn danger" onclick="deleteFacility(${facility.id})">Delete</button>
+                            </div>
+                        `;
+                        facilitiesList.appendChild(facilityItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading facilities:', error);
+                    document.getElementById('facilitiesList').innerHTML = 
+                        '<p style="color: red;">Error loading facilities. Check console for details.</p>';
+                });
+        }
+
+        // Add facility form submission handler
+        document.getElementById('addFacilityForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentCollegeId) {
+                console.error('No college ID found');
+                return;
+            }
+
+            const facilityData = {
+                name: document.getElementById('facilityName').value,
+                type: document.getElementById('facilityType').value,
+                location: document.getElementById('facilityLocation').value,
+                distance: document.getElementById('facilityDistance').value,
+                description: document.getElementById('facilityDescription').value
+            };
+
+            fetch(`/college/${currentCollegeId}/facilities`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(facilityData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    const successMsg = document.getElementById('facilitySuccessMessage');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 3000);
+
+                    // Clear form
+                    document.getElementById('addFacilityForm').reset();
+
+                    // Refresh facilities list
+                    loadFacilities(currentCollegeId);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding facility:', error);
+            });
+        });
+
+        // Function to delete facility
+        function deleteFacility(facilityId) {
+            if (confirm('Are you sure you want to delete this facility?')) {
+                fetch(`/facilities/${facilityId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Refresh facilities list
+                        loadFacilities(currentCollegeId);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting facility:', error);
+                });
+            }
+        }
+
+        // Test facility button handler
+        document.getElementById('addTestFacility').addEventListener('click', function() {
+            if (!currentCollegeId) {
+                alert('No college selected');
+                return;
+            }
+
+            const testFacility = {
+                name: "Main Library",
+                type: "library",
+                location: "Central Campus",
+                distance: "2 min walk from main gate",
+                description: "Modern library with over 50,000 books"
+            };
+
+            fetch(`/college/${currentCollegeId}/facilities`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testFacility)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Test facility added successfully!');
+                    loadFacilities(currentCollegeId);
+                } else {
+                    alert('Failed to add test facility');
+                }
+            })
+            .catch(error => {
+                console.error('Error adding test facility:', error);
+                alert('Error: ' + error.message);
+            });
+        });
+
+        // Function to load applications for a college
+        function loadApplications(collegeId) {
+            fetch(`/college/${collegeId}/applications`)
+                .then(response => response.json())
+                .then(applications => {
+                    const tableBody = document.getElementById('applicationsTableBody');
+                    tableBody.innerHTML = '';
+
+                    if (applications.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No applications found.</td></tr>';
+                        document.getElementById('totalApplications').textContent = '0';
+                        document.getElementById('newApplications').textContent = '0';
+                        return;
+                    }
+
+                    // Update stats
+                    document.getElementById('totalApplications').textContent = applications.length;
+                    const newApps = applications.filter(app => app.status === 'new').length;
+                    document.getElementById('newApplications').textContent = newApps;
+
+                    // Apply filter
+                    const filter = document.getElementById('applicationStatusFilter').value;
+                    const filteredApplications = filter === 'all' ? 
+                        applications : 
+                        applications.filter(app => app.status === filter);
+
+                    if (filteredApplications.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="7" class="text-center">No ${filter} applications found.</td></tr>`;
+                        return;
+                    }
+
+                    // Sort by timestamp (newest first)
+                    filteredApplications.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                    filteredApplications.forEach(app => {
+                        const row = document.createElement('tr');
+                        
+                        // Format date
+                        const date = new Date(app.created_at);
+                        const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        // Get course name if available
+                        let courseName = app.preferred_course; // FIXED: Changed from app.preferredCourse to app.preferred_course
+                        if (!isNaN(app.preferred_course)) { // FIXED: Changed from app.preferredCourse to app.preferred_course
+                            // If it's a course ID, try to find the course name in our courseList
+                            const course = window.courseList?.find(c => c.id == app.preferred_course); // FIXED: Changed from app.preferredCourse to app.preferred_course
+                            if (course) {
+                                courseName = course.name;
+                            }
+                        }
+                        
+                        let statusBadge = '';
+                        switch(app.status) {
+                            case 'new':
+                                statusBadge = '<span class="badge badge-new">New</span>';
+                                break;
+                            case 'contacted':
+                                statusBadge = '<span class="badge badge-contacted">Contacted</span>';
+                                break;
+                            case 'processed':
+                                statusBadge = '<span class="badge badge-processed">Processed</span>';
+                                break;
+                            default:
+                                statusBadge = '<span class="badge badge-new">New</span>';
+                        }
+
+                        row.innerHTML = `
+                            <td><span class="timestamp">${formattedDate}</span></td>
+                            <td>${app.full_name}</td>              <!-- FIXED: Changed from app.fullName to app.full_name -->
+                            <td>${app.phone_number}</td>           <!-- FIXED: Changed from app.phoneNumber to app.phone_number -->
+                            <td>${courseName}</td>
+                            <td>${app.education_level}</td>        <!-- FIXED: Changed from app.educationLevel to app.education_level -->
+                            <td>${statusBadge}</td>
+                            <td>
+                                <button class="admin-btn" onclick="viewApplication(${app.id})">View</button>
+                            </td>
+                        `;
+                        
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading applications:', error);
+                    document.getElementById('applicationsTableBody').innerHTML = 
+                        '<tr><td colspan="7" class="text-center">Error loading applications. Please try again.</td></tr>';
+                });
+        }
+
+        // Function to view application details
+        function viewApplication(applicationId) {
+            fetch(`/applications/${applicationId}`)
+                .then(response => response.json())
+                .then(app => {
+                    const modal = document.getElementById('applicationDetailModal');
+                    const content = document.getElementById('applicationDetailContent');
+                    
+                    // Format date
+                    const date = new Date(app.created_at);
+                    const formattedDate = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    // Get course name if available
+                    let courseName = app.preferred_course; // FIXED: Changed from app.preferredCourse to app.preferred_course
+                    if (!isNaN(app.preferred_course)) { // FIXED: Changed from app.preferredCourse to app.preferred_course
+                        // If it's a course ID, try to find the course name in our courseList
+                        const course = window.courseList?.find(c => c.id == app.preferred_course); // FIXED: Changed from app.preferredCourse to app.preferred_course
+                        if (course) {
+                            courseName = `${course.name} (${course.degree_type})`;
+                        }
+                    }
+                    
+                    content.innerHTML = `
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Application Date:</div>
+                            <div class="application-detail-value">${formattedDate}</div>
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Full Name:</div>
+                            <div class="application-detail-value">${app.full_name}</div>         <!-- FIXED: Changed from app.fullName to app.full_name -->
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Phone Number:</div>
+                            <div class="application-detail-value">${app.phone_number}</div>      <!-- FIXED: Changed from app.phoneNumber to app.phone_number -->
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Preferred Course:</div>
+                            <div class="application-detail-value">${courseName}</div>
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Education Level:</div>
+                            <div class="application-detail-value">${app.education_level}</div>   <!-- FIXED: Changed from app.educationLevel to app.education_level -->
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Preferred Time:</div>
+                            <div class="application-detail-value">${app.preferred_time}</div>    <!-- FIXED: Changed from app.preferredTime to app.preferred_time -->
+                        </div>
+                        <div class="application-detail-row">
+                            <div class="application-detail-label">Status:</div>
+                            <div class="application-detail-value">${app.status}</div>
+                        </div>
+                        <div class="application-detail-row" style="border-bottom: none;">
+                            <div class="application-detail-label">Message:</div>
+                            <div class="application-detail-value">${app.message || 'No additional message'}</div>
+                        </div>
+                    `;
+                    
+                    // Set up action buttons
+                    document.getElementById('markAsContacted').onclick = () => updateApplicationStatus(app.id, 'contacted');
+                    document.getElementById('markAsProcessed').onclick = () => updateApplicationStatus(app.id, 'processed');
+                    
+                    // Disable buttons according to current status
+                    if (app.status === 'contacted' || app.status === 'processed') {
+                        document.getElementById('markAsContacted').disabled = true;
+                    } else {
+                        document.getElementById('markAsContacted').disabled = false;
+                    }
+                    
+                    if (app.status === 'processed') {
+                        document.getElementById('markAsProcessed').disabled = true;
+                    } else {
+                        document.getElementById('markAsProcessed').disabled = false;
+                    }
+                    
+                    // Show the modal
+                    modal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error loading application details:', error);
+                    alert('Error loading application details. Please try again.');
+                });
+        }
+
+        // Function to update application status
+        function updateApplicationStatus(applicationId, newStatus) {
+            fetch(`/applications/${applicationId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal
+                    document.getElementById('applicationDetailModal').style.display = 'none';
+                    
+                    // Refresh applications list
+                    loadApplications(currentCollegeId);
+                } else {
+                    alert('Failed to update application status.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating application status:', error);
+                alert('Error updating application status. Please try again.');
+            });
+        }
+
+        // Function to refresh applications list
+        function refreshApplications() {
+            if (currentCollegeId) {
+                loadApplications(currentCollegeId);
+            }
+        }
+
+        // Add status filter change event
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('applicationStatusFilter').addEventListener('change', function() {
+                if (currentCollegeId) {
+                    loadApplications(currentCollegeId);
+                }
+            });
+        });
+
+        // Function to load reviews
+        function loadReviews(collegeId) {
+            if (!collegeId) {
+                console.error('No college ID provided');
+                return;
+            }
+            
+            fetch(`/college/${collegeId}/reviews`)
+                .then(response => response.json())
+                .then(data => {
+                    const reviewsList = document.getElementById('reviewsList');
+                    
+                    if (data.reviews.length === 0) {
+                        reviewsList.innerHTML = '<p>No reviews available for this college.</p>';
+                        return;
+                    }
+                    
+                    reviewsList.innerHTML = `
+                        <div class="stats-summary">
+                            <div class="stat-card">
+                                <div class="value">${data.totalReviews}</div>
+                                <div class="label">Total Reviews</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="value">${data.averageRating ? data.averageRating.toFixed(1) : '0'}/5</div>
+                                <div class="label">Average Rating</div>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Rating</th>
+                                        <th>Review</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reviewsTableBody"></tbody>
+                            </table>
+                        </div>
+                    `;
+                    
+                    const tableBody = document.getElementById('reviewsTableBody');
+                    data.reviews.forEach(review => {
+                        const date = new Date(review.created_at);
+                        const formattedDate = date.toLocaleDateString() + ' ' + 
+                                             date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${review.username}</td>
+                            <td>${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</td>
+                            <td>${review.review_text || 'No comments provided'}</td>
+                            <td>${formattedDate}</td>
+                            <td>
+                                <button class="admin-btn danger" onclick="deleteReview(${review.id})">Delete</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading reviews:', error);
+                    document.getElementById('reviewsList').innerHTML = 
+                        '<p style="color: red;">Error loading reviews. Check console for details.</p>';
+                });
+        }
+
+        // Function to delete review
+        function deleteReview(reviewId) {
+            if (!currentCollegeId) {
+                console.error('No college ID found');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete this review?')) {
+                fetch(`/admin/college/${currentCollegeId}/reviews/${reviewId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        alert('Review deleted successfully');
+                        
+                        // Refresh reviews list
+                        loadReviews(currentCollegeId);
+                    } else {
+                        alert(data.error || 'Error deleting review');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting review:', error);
+                    alert('Error deleting review. Check console for details.');
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

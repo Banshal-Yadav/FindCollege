@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+
+        .dashboard-nav {
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-tabs li {
+            margin-right: 5px;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 10px 20px;
+            color: #4a5568;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .nav-tabs a.active {
+            color: #3182ce;
+            border-color: #e2e8f0;
+            background: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        .admin-btn {
+            background: linear-gradient(45deg, #3182ce, #2c5282);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .admin-btn.danger {
+            background: #e53e3e;
+        }
+
+        .list-group {
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .success-message {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Super Admin Dashboard</h1>
+            <div>
+                <span id="adminUsername" style="margin-right: 15px;"></span>
+                <button id="logoutBtn" class="admin-btn">Logout</button>
+            </div>
+        </div>
+
+        <div class="dashboard-nav">
+            <ul class="nav-tabs">
+                <li><a href="#colleges" class="active" data-tab="colleges">Colleges</a></li>
+                <li><a href="#admins" data-tab="admins">College Admins</a></li>
+                <li><a href="#users" data-tab="users">Registered Users</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div id="colleges" class="tab-pane active">
+                <h2>Manage Colleges</h2>
+                <div class="list-group" id="collegeList">
+                    <p>Loading colleges...</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Add New College</h3>
+                <form id="addCollegeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeName">College Name*</label>
+                            <input type="text" id="collegeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="collegeLocation">Location*</label>
+                            <input type="text" id="collegeLocation" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeRanking">NIRF Ranking</label>
+                            <input type="number" id="collegeRanking">
+                        </div>
+                        <div class="form-group">
+                            <label for="collegeEstablished">Established Year</label>
+                            <input type="number" id="collegeEstablished" min="1800" max="2025">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="collegeWebsite">Website</label>
+                            <input type="url" id="collegeWebsite" placeholder="https://example.com">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="admin-btn">Add College</button>
+                    <div id="collegeSuccessMsg" class="success-message">College added successfully!</div>
+                </form>
+            </div>
+
+            <div id="admins" class="tab-pane">
+                <h2>Manage College Admins</h2>
+                <div class="list-group" id="adminList">
+                    <p>Loading admins...</p>
+                </div>
+                <h3 style="margin-top: 30px;">Add New Admin</h3>
+                <form id="addAdminForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newAdminUsername">Username*</label>
+                            <input type="text" id="newAdminUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword">Password*</label>
+                            <input type="password" id="adminPassword" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="adminEmail">Email*</label>
+                            <input type="email" id="adminEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminCollegeId">Assign to College</label>
+                            <select id="adminCollegeId">
+                                <option value="">Super Admin (no college)</option>
+                                <!-- Colleges will be added here -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="admin-btn">Add Admin</button>
+                    <div id="adminSuccessMsg" class="success-message">Admin added successfully!</div>
+                </form>
+            </div>
+
+
+        <!--must be after the admins tab pane -->
+        <div id="users" class="tab-pane">
+            <h2>Registered Users</h2>
+            <div class="user-stats" style="background: #f7fafc; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 1.1rem;">Total registered users: <span id="userCount"
+                        style="font-weight: bold; color: #3182ce;">0</span></p>
+            </div>
+            <div class="list-group" id="usersList">
+                <p>Loading users...</p>
+            </div>
+        </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentTab = 'colleges';
+        let collegesLoaded = true; //Set to true since we are loading them on page load
+        let adminsLoaded = true;   // Set to true since we are loading them on page load
+        let usersLoaded = false;
+
+        // Check if user is logged in as super admin
+        fetch('/admin/check-auth')
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = '/admin/login.html';
+                    throw new Error('Not authenticated');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.authenticated) {
+                    // Check if this is a super admin
+                    if (data.collegeId !== null) {
+                        window.location.href = '/admin/dashboard.html';
+                        throw new Error('Not a super admin');
+                    }
+
+                    document.getElementById('adminUsername').textContent = data.username;
+                    loadColleges();
+                    loadAdmins();
+                    populateCollegeDropdown();
+                }
+            })
+            .catch(error => {
+                console.error('Authentication error:', error);
+            });
+
+        // Handle tab navigation
+        document.querySelectorAll('.nav-tabs a').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                const tabId = this.getAttribute('data-tab');
+
+                // Update active tab
+                document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show selected tab content
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+
+                currentTab = tabId;
+
+                // Load tab data if needed
+                if (tabId === 'users' && !usersLoaded) {
+                    loadUsers();
+                    usersLoaded = true;
+                }
+            });
+        });
+
+        // Load all colleges
+        // Update loadColleges() function around line 377-400
+function loadColleges() {
+    fetch('/colleges')
+        .then(response => response.json())
+        .then(colleges => {
+            const collegeList = document.getElementById('collegeList');
+            collegeList.innerHTML = '';
+
+            if (colleges.length === 0) {
+                collegeList.innerHTML = '<p>No colleges found.</p>';
+                return;
+            }
+
+            colleges.forEach(college => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${college.name}</strong>
+                        <br>
+                        <small>${college.location} | NIRF Rank: ${college.ranking || 'N/A'}</small>
+                    </div>
+                `;
+                collegeList.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading colleges:', error);
+        });
+}
+
+        // Load all admins
+        // Update loadAdmins() function around line 402-428
+function loadAdmins() {
+    fetch('/admin/users')
+        .then(response => response.json())
+        .then(admins => {
+            const adminList = document.getElementById('adminList');
+            adminList.innerHTML = '';
+
+            if (admins.length === 0) {
+                adminList.innerHTML = '<p>No admins found.</p>';
+                return;
+            }
+
+            admins.forEach(admin => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${admin.username}</strong>
+                        <br>
+                        <small>College: ${admin.college_name || 'Super Admin'}</small>
+                    </div>
+                    <div>
+                        <button class="admin-btn danger" onclick="deleteAdmin(${admin.id})">Delete</button>
+                    </div>
+                `;
+                adminList.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading admins:', error);
+        });
+}
+        
+        //this code should be after loadAdmins() but before the logout handler
+            function loadUsers() {
+                fetch('/admin/registered-users')
+                    .then(response => response.json())
+                    .then(users => {
+                        const usersList = document.getElementById('usersList');
+                        usersList.innerHTML = '';
+
+                        // Update total user count
+                        document.getElementById('userCount').textContent = users.length;
+
+                        if (users.length === 0) {
+                            usersList.innerHTML = '<p>No registered users found.</p>';
+                            return;
+                        }
+
+                        users.forEach(user => {
+                            const item = document.createElement('div');
+                            item.className = 'list-item';
+                            let joinDate = 'N/A';
+                            if (user.created_at) {
+                                joinDate = new Date(user.created_at).toLocaleDateString();
+                            }
+
+                            item.innerHTML = `
+                    <div>
+                        <strong>${user.username}</strong>
+                        <br>
+                        <small>Email: ${user.email || 'N/A'} | Joined: ${joinDate}</small>
+                    </div>
+                `;
+                            usersList.appendChild(item);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading users:', error);
+                        document.getElementById('usersList').innerHTML =
+                            '<p>Error loading users. Please try again.</p>';
+                    });
+            }
+
+        // Populate college dropdown for admin creation
+        function populateCollegeDropdown() {
+            fetch('/colleges')
+                .then(response => response.json())
+                .then(colleges => {
+                    const dropdown = document.getElementById('adminCollegeId');
+                    // Keep the first option for super admin
+                    dropdown.innerHTML = '<option value="">Super Admin (no college)</option>';
+
+                    colleges.forEach(college => {
+                        const option = document.createElement('option');
+                        option.value = college.id;
+                        option.textContent = college.name;
+                        dropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading colleges for dropdown:', error);
+                });
+        }
+
+        // Add college form handler
+        document.getElementById('addCollegeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const collegeData = {
+                name: document.getElementById('collegeName').value,
+                location: document.getElementById('collegeLocation').value,
+                ranking: document.getElementById('collegeRanking').value || null,
+                established_year: document.getElementById('collegeEstablished').value || null,
+                website: document.getElementById('collegeWebsite').value || null
+            };
+
+            fetch('/college', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(collegeData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        const successMsg = document.getElementById('collegeSuccessMsg');
+                        successMsg.style.display = 'block';
+                        setTimeout(() => {
+                            successMsg.style.display = 'none';
+                        }, 3000);
+
+                        // Clear form
+                        document.getElementById('addCollegeForm').reset();
+
+                        // Reload colleges and update dropdown
+                        loadColleges();
+                        populateCollegeDropdown();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error creating college:', error);
+                });
+        });
+
+        // Add admin form handler
+        document.getElementById('addAdminForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const adminData = {
+                username: document.getElementById('newAdminUsername').value,
+                password: document.getElementById('adminPassword').value,
+                email: document.getElementById('adminEmail').value,
+                college_id: document.getElementById('adminCollegeId').value || null
+            };
+
+            fetch('/admin/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(adminData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        const successMsg = document.getElementById('adminSuccessMsg');
+                        successMsg.style.display = 'block';
+                        setTimeout(() => {
+                            successMsg.style.display = 'none';
+                        }, 3000);
+
+                        // Clear form
+                        document.getElementById('addAdminForm').reset();
+
+                        // Reload admins
+                        loadAdmins();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error creating admin:', error);
+                });
+        });
+
+       
+        // Function to delete an admin
+        function deleteAdmin(adminId) {
+            if (confirm('Are you sure you want to delete this admin?')) {
+                fetch(`/admin/users/${adminId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            loadAdmins();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting admin:', error);
+                    });
+            }
+        }
+
+        // Handle logout
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            fetch('/admin/logout')
+                .then(() => {
+                    window.location.href = '/admin/login.html';
+                })
+                .catch(error => {
+                    console.error('Logout error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

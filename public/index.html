@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>College search</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+</head>
+
+<body>
+  <header>
+    <div class="d2">
+      <nav class="site-nav">
+        <div class="dropdown">
+          <button class="dropdown-btn" id="p4">Explore courses</button>
+          <div class="dropdown-content">
+            <a href="#">Engineering Degrees</a>
+            <a href="#">Medical Programs</a>
+            <a href="#">Business & Management</a>
+            <a href="#">Arts & Humanities</a>
+            <a href="#">Science Programs</a>
+            <a href="#">Law Degrees</a>
+            <a href="#">Computer Applications</a>
+          </div>
+        </div>
+
+      </nav>
+
+      <nav class="site-nav">
+        <div class="dropdown">
+          <button class="dropdown-btn" id="p5">Engineering</button>
+          <div class="dropdown-content">
+            <a href="#">Computer Science & IT</a>
+            <a href="#">Mechanical Engineering</a>
+            <a href="#">Electrical Engineering</a>
+            <a href="#">Civil Engineering</a>
+            <a href="#">Chemical Engineering</a>
+            <a href="#">Aerospace Engineering</a>
+            <a href="#">Biotechnology</a>
+          </div>
+      </nav>
+
+      <nav class="site-nav">
+        <div class="dropdown">
+          <button class="dropdown-btn" id="p6">Medical</button>
+          <div class="dropdown-content">
+            <a href="#">MBBS</a>
+            <a href="#">BDS</a>
+            <a href="#">Pharmacy</a>
+            <a href="#">Nursing</a>
+            <a href="#">Physiotherapy</a>
+            <a href="#">Ayurveda</a>
+            <a href="#">Veterinary Science</a>
+          </div>
+        </div>
+      </nav>
+
+      <nav class="site-nav">
+        <div class="dropdown">
+          <button class="dropdown-btn" id="p7">More</button>
+          <div class="dropdown-content">
+            <a href="#">Top Colleges</a>
+            <a href="#">Entrance Exams</a>
+            <a href="#">Scholarships</a>
+            <a href="#">Campus Life</a>
+            <a href="#">Career Guidance</a>
+            <a href="#">Student Reviews</a>
+          </div>
+        </div>
+      </nav>
+      <div class="d1">
+        <p id="p1" class="header1"><i class="fa-brands fa-square-github"></i></p>
+        <p id="p2" class="header1"><i class="fa-brands fa-square-x-twitter"></i></p>
+        <p id="p3" class="header1"><i class="fa-brands fa-linkedin"></i></p>
+      </div>
+
+      <div class="user-auth" style="position: absolute; right: 150px; top: 15px;">
+        <a href="/login.html" id="loginLink"
+          style="color: #3a6ea5; margin-right: 15px; text-decoration: none;">Login</a>
+        <a href="/register.html" id="registerLink"
+          style="color: #3a6ea5; margin-right: 15px; text-decoration: none;">Register</a>
+        <a href="#" id="logoutLink" style="color: #3a6ea5; display: none; text-decoration: none;">Logout</a>
+        <span id="userWelcome" style="color: #333; display: none;"> Welcome, <span id="username"></span></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="search-container">
+      <h1 class="top-caption">Exploring Colleges? we got you COVERED</h1>
+      <form id="searchForm">
+        <div class="search">
+          <input class="search1" id="pl" type="search" name="queue" placeholder="Search college">
+          <button type="submit" class="btn">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </div>
+      </form>
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- cards -->
+    <div class="college-card-container">
+      <h2 class="section-title">Popular Colleges</h2>
+      <div class="college-cards">
+        <!-- card1 -->
+        <div class="college-card">
+          <div class="college-image">
+            <img src="https://media.glassdoor.com/lst2x/9b/83/0a/ca/himalaya-mess-complex.jpg" alt="college-1">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology Madras</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Chennai, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #1</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=13" class="view-details">View Details</a>
+          </div>
+        </div>
+
+        <!-- card-2 -->
+        <div class="college-card">
+          <div class="college-image">
+            <img src="https://media.glassdoor.com/lst2x/b3/8e/14/8e/iit-delhi.jpg" alt="college-1">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology Delhi</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Delhi, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #2</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=14" class="view-details">View Details</a>
+          </div>
+        </div>
+
+        <!-- card-3 -->
+        <div class="college-card">
+          <div class="college-image">
+            <img
+              src="https://w0.peakpx.com/wallpaper/769/176/HD-wallpaper-iit-bombay%E2%9D%A4%EF%B8%8F%E2%9C%A8-iit-delhi.jpg"
+              alt="college-2">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology Bombay</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Bombay, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #3</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=15" class="view-details">View Details</a>
+          </div>
+        </div>
+
+
+
+        <!-- card-4 -->
+        <div class="college-card">
+          <div class="college-image">
+            <img src="https://wallpaperaccess.com/full/9629471.jpg" alt="college-1">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology Kanpur</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Kanpur, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #4</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=16" class="view-details">View Details</a>
+          </div>
+        </div>
+
+        <!-- card-5-->
+        <div class="college-card">
+          <div class="college-image">
+            <img src="https://media.glassdoor.com/lst2x/60/b7/d2/f4/iit-main-building.jpg" alt="college-1">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Kharagpur, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #1</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=17" class="view-details">View Details</a>
+          </div>
+        </div>
+
+        <!-- card-6 -->
+        <div class="college-card">
+          <div class="college-image">
+            <img src="https://i.pinimg.com/originals/d9/25/63/d92563980132485db206a553bd9a0f23.jpg" alt="college-1">
+          </div>
+          <div class="college-info">
+            <h3>Indian Institute of Technology Roorkee</h3>
+            <p class="location"><i class="fas fa-map-maker-alt"></i>Roorkee, India</p>
+            <div class="college-details">
+              <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #6</span>
+              <span><i class="fas fa-user-graduate"></i> 100% placement</span>
+            </div>
+            <div class="college-courses">
+              <span class="course-tag">Computer Science</span>
+              <span class="course-tag">Mechanical</span>
+              <span class="course-tag">Electronics</span>
+            </div>
+            <a href="http://localhost:3000/college-detail.html?id=18" class="view-details">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h2>about us</h2>
+        <p>Assisting students</p>
+      </div>
+      <div class="footer-section-link">
+        <h2>Quick links</h2>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">contact</a></li>
+          <li><a href="/admin/login.html" style="opacity:0.7;">Admin</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy;2025 FindCollege.All Rights Reserved</p>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- generate dynamic url(api) of search result by ID and request data from backend and get it in JSON format to parse -->
+  <script>
+    // Listen for the form submission
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      //get the search query from the input field
+      let query = document.getElementById('pl').value.trim();
+
+      //build the api url with the query parameter if provided
+      let apiUrl = '/colleges';
+      if (query) {
+        apiUrl += '?name=' + encodeURIComponent(query);
+      }
+
+      //fetch data from the backend
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Select the search results container
+          const resultsContainer = document.getElementById('searchResults');
+          resultsContainer.innerHTML = ""; // Clear previous results
+
+          // Check if any data is returned
+          if (data.length === 0) {
+            resultsContainer.innerHTML = '<p>No colleges found.</p>';
+            return;
+          }
+
+          data.forEach(college => {
+            const collegeDiv = document.createElement('div');
+            collegeDiv.classList.add('college-result');
+
+            // Determine if we have photos to show
+            const hasPhotos = college.photo_link1 || college.photo_link2 || college.photo_link3 || college.photo_link4;
+
+            // Change how we determine if a map is available - check for iframe code
+            const hasMapEmbed = college.map_link && college.map_link.trim().includes('<iframe');
+            const hasMaps = hasMapEmbed || college.satellite_link;
+
+            collegeDiv.innerHTML = `
+                       <div class="search-result-grid">
+                         <!-- Card 1: College Info -->
+                      <div class="search-card college-info-card">
+                      <h3>${college.name}</h3>
+                      <p class="location"><i class="fas fa-map-marker-alt"></i> ${college.location}</p>
+                       <div class="college-details">
+                            <span><i class="fas fa-graduation-cap"></i> NIRF Rank: #${college.ranking || 'N/A'}</span>
+                             <span><i class="fas fa-user-graduate"></i> ${college.placement_rate || '95'}% placement</span>
+                      </div>
+                   <div class="college-courses">
+                      <span class="course-tag">Computer Science</span>
+                       <span class="course-tag">Mechanical</span>
+                       <span class="course-tag">Electronics</span>
+                   </div>
+                   <a href="/college-detail.html?id=${college.id}" class="view-details-btn">View Details</a>
+                  </div>
+                  <!-- Card 2: Photo Slider (if available) -->${hasPhotos ? ` <div class="search-card photo-slider-card">
+                  <h4>Campus Photos</h4>
+                  <div class="photo-slider" id="photo-slider-${college.id}">
+      ${college.photo_link1 ? `<div class="slide"><div class="aspect-ratio-box"><img src="${college.photo_link1}" alt="${college.name} photo 1"></div></div>` : ''}
+      ${college.photo_link2 ? `<div class="slide"><div class="aspect-ratio-box"><img src="${college.photo_link2}" alt="${college.name} photo 2"></div></div>` : ''}
+      ${college.photo_link3 ? `<div class="slide"><div class="aspect-ratio-box"><img src="${college.photo_link3}" alt="${college.name} photo 3"></div></div>` : ''}
+      ${college.photo_link4 ? `<div class="slide"><div class="aspect-ratio-box"><img src="${college.photo_link4}" alt="${college.name} photo 4"></div></div>` : ''}
+            </div>
+    <div class="slider-nav">
+      <button class="prev-btn" onclick="moveSlide('photo-slider-${college.id}', -1)">❮</button>
+      <button class="next-btn" onclick="moveSlide('photo-slider-${college.id}', 1)">❯</button>
+    </div>
+      </div>
+            ` : `
+            <div class="search-card photo-slider-card no-content">
+           <p>No photos available</p>
+            </div>
+         `}
+                    
+  <!-- Card 3: Map View (if available) -->
+  ${hasMaps ? `
+  <div class="search-card map-card">
+    <h4>Campus Location</h4>
+    <div class="map-aspect-container">
+      <div class="map-container">
+        ${hasMapEmbed ?
+                  // Display the iframe directly from the database
+                  `${college.map_link}` :
+                  // Fallback for colleges that might still have old-style links
+                  `<div style="text-align:center; padding:20px; height:100%;">Map preview not available</div>`
+                }
+      </div>
+    </div>
+    ${college.satellite_link ? `
+    <a href="${college.satellite_link}" target="_blank" class="satellite-btn">View Satellite</a>
+    ` : ''}
+  </div>
+  ` : `
+  <div class="search-card map-card no-content">
+    <p>No map available</p>
+  </div>
+  `}
+</div>
+  `;
+            resultsContainer.appendChild(collegeDiv);
+
+            // Initialize the photo sliders
+            if (hasPhotos) {
+              setTimeout(() => initPhotoSlider(`photo-slider-${college.id}`), 100);
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    });
+
+    // Function to move slides
+    function moveSlide(sliderId, direction) {
+      const slider = document.getElementById(sliderId);
+      if (!slider) return;
+
+      const slides = slider.getElementsByClassName('slide');
+      if (!slides.length) return;
+
+      // Find the current active slide
+      let activeIndex = -1;
+      for (let i = 0; i < slides.length; i++) {
+        if (slides[i].classList.contains('active')) {
+          activeIndex = i;
+          slides[i].classList.remove('active');
+          break;
+        }
+      }
+
+      // If no active slide, use the first one
+      if (activeIndex === -1) activeIndex = 0;
+      else slides[activeIndex].classList.remove('active');
+
+      // Calculate the next index
+      let nextIndex = (activeIndex + direction) % slides.length;
+      if (nextIndex < 0) nextIndex = slides.length - 1;
+
+      // Activate the next slide
+      slides[nextIndex].classList.add('active');
+    }
+
+    // Function to initialize a photo slider
+    function initPhotoSlider(sliderId) {
+      const slider = document.getElementById(sliderId);
+      if (!slider) return;
+
+      const slides = slider.getElementsByClassName('slide');
+      if (!slides.length) return;
+
+      // Activate the first slide
+      slides[0].classList.add('active');
+    }
+
+  </script>
+
+  <script>
+    // Check if user is logged in , if true -  hides login nad register links  
+    fetch('/check-auth')
+      .then(response => response.json())
+      .then(data => {
+        if (data.authenticated) {
+          document.getElementById('loginLink').style.display = 'none';
+          document.getElementById('registerLink').style.display = 'none';
+          document.getElementById('logoutLink').style.display = 'inline';
+          document.getElementById('userWelcome').style.display = 'inline';
+          document.getElementById('username').textContent = data.username;
+        }
+      })
+      .catch(error => console.error('Error checking auth:', error));
+
+    // Handle logout
+    document.getElementById('logoutLink').addEventListener('click', function (e) {
+      e.preventDefault();
+      fetch('/logout')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.reload();
+          }
+        })
+        .catch(error => console.error('Error during logout:', error));
+    });
+  </script>
+</body>
+
+</html>
